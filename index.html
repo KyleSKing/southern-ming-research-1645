@@ -2,79 +2,73 @@
 <html lang='zh-CN'>
 <head>
     <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'>
     <title>YANGZHOU FALLS 1645 | Research Report</title>
     <script src='https://cdn.tailwindcss.com'></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
         .font-brutal { font-family: 'Impact', 'Arial Black', sans-serif; }
-        .brutal-shadow { box-shadow: 12px 12px 0px 0px #FF0000; }
+        .brutal-shadow { box-shadow: 8px 8px 0px 0px #FF0000; }
+        @media (min-width: 768px) { .brutal-shadow { box-shadow: 12px 12px 0px 0px #FF0000; } }
     </style>
 </head>
-<body class='bg-neutral-900 text-white p-8 selection:bg-red-600 font-mono antialiased'>
+<body class='bg-neutral-900 text-white p-4 md:p-8 selection:bg-red-600 font-mono antialiased overflow-x-hidden'>
     <div class='max-w-6xl mx-auto'>
-        <!-- HEADER SECTION -->
-        <header class='border-8 border-white p-6 mb-12 transform -rotate-1 brutal-shadow bg-neutral-900 transition-transform duration-300 hover:rotate-0'>
-            <h1 class='text-7xl font-black uppercase tracking-tighter leading-none font-brutal'>
+        <!-- HEADER SECTION (Mobile Optimized) -->
+        <header class='border-4 md:border-8 border-white p-4 md:p-6 mb-8 md:mb-12 transform md:-rotate-1 brutal-shadow bg-neutral-900 transition-transform duration-300 md:hover:rotate-0'>
+            <h1 class='text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tighter leading-tight md:leading-none font-brutal'>
                 YANGZHOU <br />
                 <span class='text-red-600'>FALLS</span> 1645
             </h1>
-            <div class='mt-4 flex justify-between items-end border-t-4 border-white pt-4'>
-                <p class='text-xl font-bold italic underline decoration-red-600 uppercase'>Collapse Structure Analysis</p>
-                <span class='bg-white text-black px-4 py-2 font-black text-2xl uppercase'>Classified</span>
+            <div class='mt-4 flex flex-col md:flex-row justify-between items-start md:items-end border-t-2 md:border-t-4 border-white pt-4 gap-2'>
+                <p class='text-sm sm:text-md md:text-xl font-bold italic underline decoration-red-600 uppercase'>Collapse Structure Analysis</p>
+                <span class='bg-white text-black px-3 py-1 font-black text-lg md:text-2xl uppercase'>Classified</span>
             </div>
         </header>
 
-        <!-- CORE DATA BLOCKS -->
-        <div class='grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
-            <div class='border-4 border-white p-6 hover:bg-white hover:text-black transition-all duration-500 cursor-pointer group'>
-                <span class='text-4xl font-black block mb-4 border-b-2 border-red-600 pb-2'>01 POLITICS</span>
-                <h3 class='text-2xl font-bold mb-4 uppercase'>Legitimacy Void</h3>
-                <p class='leading-tight group-hover:font-medium'>
-                    While Southern Song had one legitimate heir (Zhao Gou), Southern Ming suffered from competing claimants (Hongguang, Tang, Lu). Internal strife outpaced defense.
-                </p>
+        <!-- CORE DATA BLOCKS (Mobile Stacked) -->
+        <div class='grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16'>
+            <div class='border-2 md:border-4 border-white p-6 hover:bg-white hover:text-black transition-all cursor-pointer group'>
+                <span class='text-2xl md:text-4xl font-black block mb-2 md:mb-4 border-b-2 border-red-600 pb-2'>01 POLITICS</span>
+                <h3 class='text-xl md:text-2xl font-bold mb-2 md:mb-4 uppercase'>Legitimacy Void</h3>
+                <p class='text-sm md:text-base'>While Southern Song had one legitimate heir (Zhao Gou), Southern Ming suffered from competing claimants.</p>
             </div>
 
-            <div class='border-4 border-white p-6 hover:bg-white hover:text-black transition-all duration-500 cursor-pointer group'>
-                <span class='text-4xl font-black block mb-4 border-b-2 border-red-600 pb-2'>02 SOCIETY</span>
-                <h3 class='text-2xl font-bold mb-4 uppercase'>Elite Betrayal</h3>
-                <p class='leading-tight group-hover:font-medium'>
-                    Local gentry chose stability under Qing over predatory taxation under Ming generals. The alliance between Manchu and Han elites isolated the Southern Ming regime.
-                </p>
+            <div class='border-2 md:border-4 border-white p-6 hover:bg-white hover:text-black transition-all cursor-pointer group'>
+                <span class='text-2xl md:text-4xl font-black block mb-2 md:mb-4 border-b-2 border-red-600 pb-2'>02 SOCIETY</span>
+                <h3 class='text-xl md:text-2xl font-bold mb-2 md:mb-4 uppercase'>Elite Choice</h3>
+                <p class='text-sm md:text-base'>Local gentry chose stability under Qing over predatory taxation under Ming generals in 1645.</p>
             </div>
 
-            <div class='border-4 border-white p-6 hover:bg-white hover:text-black transition-all duration-500 cursor-pointer group'>
-                <span class='text-4xl font-black block mb-4 border-b-2 border-red-600 pb-2'>03 ECONOMY</span>
-                <h3 class='text-2xl font-bold mb-4 uppercase'>Looting Cycle</h3>
-                <p class='leading-tight group-hover:font-medium'>
-                    Southern Ming lacked a taxation system. Armies survived by looting (Jiangbei Four Towns). Song had tea/salt taxes; Ming had only plunder.
-                </p>
+            <div class='border-2 md:border-4 border-white p-6 hover:bg-white hover:text-black transition-all cursor-pointer group'>
+                <span class='text-2xl md:text-4xl font-black block mb-2 md:mb-4 border-b-2 border-red-600 pb-2'>03 ECONOMY</span>
+                <h3 class='text-xl md:text-2xl font-bold mb-2 md:mb-4 uppercase'>Looting Cycle</h3>
+                <p class='text-sm md:text-base'>Southern Ming lacked a taxation system. Armies survived by looting (Jiangbei Four Towns).</p>
             </div>
         </div>
 
-        <!-- FALL OF YANGZHOU SECTION (TEXT RESTORED) -->
-        <section class='relative border-r-8 border-b-8 border-white p-10 bg-red-600 text-white mb-20'>
-            <div class='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-black py-2 px-8 border-4 border-white font-black text-3xl uppercase rotate-6 shadow-2xl'>
+        <!-- FALL OF YANGZHOU SECTION (Responsive Link) -->
+        <section class='relative border-r-4 md:border-r-8 border-b-4 md:border-b-8 border-white p-6 md:p-10 bg-red-600 text-white mb-12 md:mb-20'>
+            <div class='absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/2 bg-black py-1 px-4 md:px-8 border-2 md:border-4 border-white font-black text-lg md:text-3xl uppercase rotate-6'>
                 Point of Impact
             </div>
-            <h2 class='text-6xl font-black uppercase mb-6 drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]'>10 DAYS OF MASSACRE</h2>
-            <div class='text-2xl font-bold max-w-4xl'>
-                <p class='border-l-8 border-black pl-6 py-2 bg-black/10 text-white mt-4 italic'>
-                    THE FAILURE WAS NOT JUST MILITARY—IT WAS THE TOTAL COLLAPSE OF THE SOCIAL MOBILIZATION CAPABILITY OF THE SOUTHERN MING.
+            <h2 class='text-3xl sm:text-4xl md:text-6xl font-black uppercase mb-4'>10 DAYS OF MASSACRE</h2>
+            <div class='text-lg md:text-2xl font-bold max-w-4xl'>
+                <p class='border-l-4 md:border-l-8 border-black pl-4 py-2 bg-black/10 text-white italic'>
+                    THE FAILURE WAS NOT JUST MILITARY—IT WAS THE TOTAL COLLAPSE OF SOCIAL MOBILIZATION.
                 </p>
-                <!-- NEW LINK BELOW TEXT -->
-                <div class='mt-10'>
-                    <a href='timeline_draft.html' class='inline-block bg-black text-white px-6 py-3 border-4 border-white font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all transform hover:-translate-y-1 active:translate-y-0'>
-                        View Strategic Timeline &rarr;
+                <div class='mt-8 md:mt-10'>
+                    <a href='timeline_draft.html' class='inline-block bg-black text-white px-4 md:px-6 py-2 md:py-3 border-2 md:border-4 border-white text-sm md:text-base font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all transform active:scale-95'>
+                        View Timeline &rarr;
                     </a>
                 </div>
             </div>
         </section>
 
         <!-- FOOTER -->
-        <footer class='flex flex-wrap gap-4 items-center opacity-50 mb-16'>
-            <span class='bg-white text-black px-3 py-1 font-bold font-mono tracking-tighter'>RESEARCHED BY KyleSKing // OC-2026</span>
-            <span class='italic ml-auto'>Ref: History of Southern Ming (Gu Cheng).</span>
+        <footer class='flex flex-col md:flex-row gap-4 items-center opacity-50 mb-12'>
+            <span class='bg-white text-black px-3 py-1 font-bold text-xs md:text-base'>RESEARCHED BY KyleSKing // OC-2026</span>
+            <span class='italic text-xs md:text-base ml-auto'>Ref: History of Southern Ming.</span>
         </footer>
     </div>
 </body>
