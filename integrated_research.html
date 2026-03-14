@@ -3,12 +3,12 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>整合版：1645 南明兴衰深度报告 | KyleSKing</title>
+    <title>ULTIMATE: 1645 南明兴衰深度报告 | KyleSKing</title>
     <script src='https://cdn.tailwindcss.com'></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&display=swap');
         .font-brutal { font-family: 'Impact', 'Arial Black', sans-serif; }
-        .brutal-shadow { box-shadow: 12px 12px 0px 0px #FF0000; }
+        .brutal-shadow { box-shadow: 15px 15px 0px 0px #FF0000; }
         @keyframes flow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
         .animate-flow { animation: flow 2s linear infinite; }
         .hover-invert:hover { background-color: white; color: black; transition: 0.3s; }
@@ -16,57 +16,29 @@
 </head>
 <body class='bg-neutral-900 text-white p-6 md:p-12 selection:bg-red-600 font-mono'>
     <div class='max-w-6xl mx-auto'>
-        <!-- HEADER (V1 Legacy) -->
-        <header class='border-8 border-white p-8 mb-16 transform -rotate-1 brutal-shadow bg-neutral-900'>
-            <h1 class='text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none font-brutal'>
+        <!-- HEADER (V1 Restored with Animation) -->
+        <header class='border-8 border-white p-8 mb-16 transform -rotate-1 brutal-shadow bg-neutral-900 transition-all duration-500 hover:rotate-0'>
+            <h1 class='text-7xl md:text-9xl font-black uppercase tracking-tighter leading-none font-brutal'>
                 YANGZHOU <br />
                 <span class='text-red-600'>FALLS</span> 1645
             </h1>
             <div class='mt-6 flex justify-between items-end border-t-4 border-white pt-6'>
-                <p class='text-2xl font-bold italic underline decoration-red-600 uppercase'>Strategic & Social Collapse Analysis</p>
-                <span class='bg-white text-black px-4 py-2 font-black text-2xl uppercase'>Integrated v1.5</span>
+                <p class='text-2xl font-bold italic underline decoration-red-600 uppercase'>Collapse Structure Analysis</p>
+                <span class='bg-white text-black px-4 py-2 font-black text-2xl uppercase'>V2.0 ULTIMATE</span>
             </div>
         </header>
 
-        <!-- STRATEGIC TIMELINE (NEW SVG) -->
-        <section class='border-8 border-white p-8 mb-16 bg-black relative'>
-            <h2 class='text-4xl font-black uppercase mb-8 border-b-4 border-red-600 pb-4'>Timeline of Destruction</h2>
-            <div class='w-full py-10 overflow-x-auto'>
-                <svg viewBox='0 0 800 300' class='w-full min-w-[600px] h-auto'>
-                    <line x1='50' y1='150' x2='750' y2='150' stroke='white' stroke-width='4' />
-                    
-                    <!-- 1645.04 -->
-                    <circle cx='100' cy='150' r='10' fill='white' />
-                    <text x='80' y='120' fill='white' font-weight='900' font-size='14'>1645.04 - Besieged</text>
-                    <path d='M100 150 V200' stroke='#FF0000' stroke-width='2' stroke-dasharray='5 5' class='animate-flow' />
-
-                    <!-- 1645.05 -->
-                    <circle cx='400' cy='150' r='15' fill='#FF0000' />
-                    <text x='350' y='120' fill='#FF0000' font-weight='900' font-size='18'>1645.05 - FALL OF CITY</text>
-                    <circle cx='400' cy='150' r='20' fill='none' stroke='#FF0000' stroke-width='2'>
-                        <animate attributeName='r' from='15' to='40' dur='1.5s' repeatCount='indefinite' />
-                        <animate attributeName='opacity' from='0.8' to='0' dur='1.5s' repeatCount='indefinite' />
-                    </circle>
-
-                    <!-- 1645.06 -->
-                    <circle cx='700' cy='150' r='10' fill='white' />
-                    <text x='620' y='120' fill='white' font-weight='900' font-size='14'>1645.06 - Yangtze Open</text>
-                    <path d='M700 150 L750 250' stroke='#FF0000' stroke-width='4' marker-end='url(#arrow)' />
-                </svg>
-            </div>
-        </section>
-
-        <!-- CORE ANALYSIS (V1 Content) -->
-        <div class='grid grid-cols-1 md:grid-cols-3 gap-8 mb-20'>
+        <!-- DATA BLOCKS (V1 Core) -->
+        <div class='grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
             <div class='border-4 border-white p-8 hover-invert cursor-pointer group'>
                 <span class='text-4xl font-black block mb-4 border-b-2 border-red-600 pb-2'>01 POLITICS</span>
                 <h3 class='text-2xl font-bold mb-4 uppercase'>Legitimacy Void</h3>
-                <p>Southern Ming fragmented commands. No single heir meant no absolute authority.</p>
+                <p>Southern Ming had no single heir. Fragmentation led to command paralysis.</p>
             </div>
             <div class='border-4 border-white p-8 hover-invert cursor-pointer group'>
                 <span class='text-4xl font-black block mb-4 border-b-2 border-red-600 pb-2'>02 SOCIETY</span>
-                <h3 class='text-2xl font-bold mb-4 uppercase'>Elite Exit</h3>
-                <p>Local gentry chose stability under Qing over predatory taxation under Ming generals.</p>
+                <h3 class='text-2xl font-bold mb-4 uppercase'>Elite Choice</h3>
+                <p>Gentry chose stability under Qing over predatory taxation under Ming.</p>
             </div>
             <div class='border-4 border-white p-8 hover-invert cursor-pointer group'>
                 <span class='text-4xl font-black block mb-4 border-b-2 border-red-600 pb-2'>03 ECONOMY</span>
@@ -75,9 +47,44 @@
             </div>
         </div>
 
-        <footer class='flex justify-between items-center border-t-8 border-white pt-10 opacity-50'>
-            <span class='bg-white text-black px-3 py-1 font-bold'>KyleSKing DIGITAL ARCHIVES</span>
-            <span class='italic'>Researcher: OC-2026 AI Agent</span>
+        <!-- 10 DAYS MASSACRE (V1 RESTORED & BOLDER) -->
+        <section class='relative border-r-8 border-b-8 border-white p-12 bg-red-600 text-white mb-16'>
+            <div class='absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/2 bg-black py-2 px-10 border-4 border-white font-black text-4xl uppercase rotate-6 shadow-2xl'>
+                IMPACT POINT
+            </div>
+            <h2 class='text-6xl md:text-8xl font-black uppercase mb-6 font-brutal drop-shadow-[5px_5px_0px_rgba(0,0,0,1)]'>
+                10 DAYS OF MASSACRE
+            </h2>
+            <div class='text-2xl font-bold max-w-4xl'>
+                <p class='border-l-8 border-black pl-6 py-2 bg-black/20 text-white'>
+                    THE FAILURE WAS NOT JUST MILITARY—IT WAS THE TOTAL COLLAPSE OF SOCIAL MOBILIZATION.
+                </p>
+            </div>
+        </section>
+
+        <!-- STRATEGIC TIMELINE (The Best of V2) -->
+        <section class='border-8 border-white p-8 mb-20 bg-zinc-950 relative'>
+            <h2 class='text-4xl font-black uppercase mb-8 border-b-4 border-red-600 pb-4'>Strategic Breakdown</h2>
+            <svg viewBox='0 0 800 300' class='w-full h-auto'>
+                <line x1='50' y1='150' x2='750' y2='150' stroke='white' stroke-width='4' />
+                <circle cx='100' cy='150' r='10' fill='white' />
+                <text x='80' y='120' fill='white' font-weight='900'>Apr - Siege</text>
+                
+                <circle cx='400' cy='150' r='15' fill='#FF0000' />
+                <text x='350' y='120' fill='#FF0000' font-weight='900'>MAY -城破</text>
+                <circle cx='400' cy='150' r='20' fill='none' stroke='#FF0000' stroke-width='2'>
+                    <animate attributeName='r' from='15' to='40' dur='1.5s' repeatCount='indefinite' />
+                    <animate attributeName='opacity' from='0.8' to='0' dur='1.5s' repeatCount='indefinite' />
+                </circle>
+
+                <circle cx='700' cy='150' r='10' fill='white' />
+                <text x='620' y='120' fill='white' font-weight='900'>Jun - Defeated</text>
+            </svg>
+        </section>
+
+        <footer class='flex justify-between items-center border-t-8 border-white pt-10 opacity-50 mb-10'>
+            <span class='bg-white text-black px-3 py-1 font-bold'>KyleSKing RESEARCH ARCHIVE</span>
+            <span class='italic'>Study: Historical Power Dynamics (OC-2026)</span>
         </footer>
     </div>
 </body>
