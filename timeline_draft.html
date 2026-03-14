@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>预览：1645 防线崩溃时间轴 | KyleSKing Research</title>
+    <script src='https://cdn.tailwindcss.com'></script>
+    <style>
+        .font-brutal { font-family: 'Impact', 'Arial Black', sans-serif; }
+        .brutal-shadow { box-shadow: 10px 10px 0px 0px #FF0000; }
+        @keyframes flow {
+            from { stroke-dashoffset: 100; }
+            to { stroke-dashoffset: 0; }
+        }
+        .animate-flow { animation: flow 2s linear infinite; }
+    </style>
+</head>
+<body class='bg-zinc-950 text-white p-8 font-mono'>
+    <div class='max-w-4xl mx-auto'>
+        <header class='border-4 border-white p-6 mb-12 brutal-shadow'>
+            <h1 class='text-5xl font-black uppercase font-brutal'>Strategic Timeline</h1>
+            <p class='text-red-600 font-bold uppercase'>The Destruction of the Yangtze defense Line</p>
+        </header>
+
+        <div class='border-4 border-white p-8 bg-black mb-12'>
+            <svg viewBox='0 0 600 400' class='w-full h-auto'>
+                <line x1='50' y1='20' x2='50' y2='380' stroke='white' stroke-width='4' />
+                <circle cx='50' cy='60' r='8' fill='white' />
+                <text x='80' y='65' fill='white' font-weight='900'>1645.04.25 - Yangzhou Besieged</text>
+                <path d='M50 60 H150' stroke='#FF0000' stroke-width='2' stroke-dasharray='5 5' class='animate-flow' />
+                <circle cx='50' cy='180' r='10' fill='#FF0000' />
+                <text x='80' y='185' fill='#FF0000' font-weight='900'>1645.05.20 - City Falls (Shi Kefa Dies)</text>
+                <circle cx='50' cy='180' r='20' fill='none' stroke='#FF0000' stroke-width='2' opacity='0.5'>
+                    <animate attributeName='r' from='10' to='30' dur='1.5s' repeatCount='indefinite' />
+                    <animate attributeName='opacity' from='0.5' to='0' dur='1.5s' repeatCount='indefinite' />
+                </circle>
+                <circle cx='50' cy='320' r='8' fill='white' />
+                <text x='80' y='325' fill='white' font-weight='900'>1645.06.01 - Yangtze Surrender</text>
+                <path d='M50 320 Q 150 320, 250 380' stroke='#FF0000' stroke-width='4' stroke-dasharray='10 5' fill='none' />
+            </svg>
+        </div>
+
+        <div class='p-6 border-4 border-red-600 bg-red-600/10'>
+            <h3 class='text-2xl font-black mb-4 uppercase'>Researcher Analysis</h3>
+            <p class='text-lg'>扬州的陷落不仅仅是一个城市的丢失，它是整个大明“江淮防务心理”的决口。由于史可法未能通过扬州战局牵制清军主力，下游水师在震惊中选择了集体投降。</p>
+        </div>
+
+        <div class='mt-12 flex gap-4'>
+            <a href='index.html' class='bg-white text-black px-4 py-2 font-black'>BACK TO MAIN</a>
+            <div class='border-2 border-white text-white px-4 py-2 font-black opacity-50 italic'>PREVIEW DRAFT v0.1</div>
+        </div>
+    </div>
+</body>
+</html>
