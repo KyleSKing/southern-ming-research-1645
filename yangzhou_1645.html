@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1644-1645 扬州攻防战动态态势图</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- 使用中文环境更稳定的地图源 (高德/百度/OSM镜像) -->
+    <script src="https://cdn.staticfile.org/leaflet/1.9.4/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/leaflet/1.9.4/leaflet.css" />
     <style>
         :root {
             --ming-color: #e63946;
@@ -119,21 +121,22 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // 初始化地图（使用深色古风风格层，这里模拟灰度图）
+    // 使用高德地图作为底图（无需 Key，基础经纬度底图）
     const map = L.map('map', {
         center: [32.5, 119.4],
         zoom: 7,
         zoomControl: false
     });
 
-    const CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap'
+    // 高德底图方案
+    const amap = L.tileLayer('https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+        attribution: '&copy; 高德地图'
     }).addTo(map);
-    
-    // 如果 Positron 加载失败，使用 OpenStreetMap 标准层作为备用
-    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    // 标准备用层
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
 
     // 历史坐标数据
     const locations = {
