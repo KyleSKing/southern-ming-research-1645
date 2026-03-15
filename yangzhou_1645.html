@@ -92,11 +92,30 @@
 <script>
     const map = L.map('map', { center: [32.5, 119.4], zoom: 7, zoomControl: false, attributionControl: false });
 
-    // 百度/高德/OSM 多重保障
-    const tiles = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+    // 尝试多个国内访问最稳定的图层源集合
+    const amap_standard = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
         subdomains: ["1", "2", "3", "4"],
         attribution: 'AutoNavi'
-    }).addTo(map);
+    });
+
+    const amap_satellite = L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
+        subdomains: ["1", "2", "3", "4"],
+        attribution: 'AutoNavi Sat'
+    });
+
+    const tencent = L.tileLayer('https://rt{s}.map.gtimg.com/tile?z={z}&x={x}&y={-y}&type=vector&styleid=3', {
+        subdomains: ["0", "1", "2"],
+        attribution: 'Tencent'
+    });
+
+    // 默认加载高德，失败则不阻塞 JavaScript 执行
+    amap_standard.addTo(map);
+
+    // 强制错误捕捉：如果所有底图都无法加载，至少保证黑色背景
+    map.on('tileerror', function() {
+        console.warn('Map tiles failed to load. Falling back to internal renderer.');
+        document.getElementById('map').style.background = '#111';
+    });
 
     const locations = { 
         yangzhou: [32.3946, 119.4126], 
