@@ -51,6 +51,33 @@
             0%, 100% { transform: translateY(0) rotate(-5deg); }
             50% { transform: translateY(-5px) rotate(5deg); }
         }
+        
+        /* 南明旗帜动画 */
+        .ming-flag-icon {
+            font-size: 24px;
+            animation: flag-wave 2s infinite ease-in-out;
+            display: inline-block;
+            filter: drop-shadow(0 0 5px #e63946);
+        }
+        @keyframes flag-wave {
+            0%, 100% { transform: skewX(-5deg) rotate(-2deg); }
+            50% { transform: skewX(5deg) rotate(2deg); }
+        }
+
+        .ming-force-label {
+            background: #e63946; 
+            color: white; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 11px;
+            white-space: nowrap;
+            border: 1px solid #ff0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+        
         .qing-force-label {
             background: #1d3557; 
             color: white; 
@@ -213,10 +240,20 @@
             }).addTo(layerGroup);
         }
 
-        // 史可法标志
+        // 史可法标志 (南明旗帜)
         if (!data.cityFall) {
             L.marker(locations.yangzhou, {
-                icon: L.divIcon({html: '<div style="color:#ff0; font-weight:bold; font-size:12px;">【史可法】</div>'})
+                icon: L.divIcon({
+                    className: '',
+                    html: `
+                        <div class="ming-force-label">
+                            <span class="ming-flag-icon">🚩</span>
+                            史可法 (督师)
+                        </div>
+                    `,
+                    iconSize: [120, 30],
+                    iconAnchor: [60, -20]
+                })
             }).addTo(layerGroup);
         }
     }
