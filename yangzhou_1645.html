@@ -98,14 +98,55 @@
         attribution: 'AutoNavi'
     }).addTo(map);
 
-    const locations = { yangzhou: [32.3946, 119.4126], nanjing: [32.0603, 118.7969], sizhou: [33.02, 118.39], huaian: [33.50, 119.13], xuzhou: [34.26, 117.18] };
+    const locations = { 
+        yangzhou: [32.3946, 119.4126], 
+        nanjing: [32.0603, 118.7969], 
+        sizhou: [33.02, 118.39], 
+        huaian: [33.50, 119.13], 
+        xuzhou: [34.26, 117.18],
+        gaoyou: [32.78, 119.44],   // 高邮：江北重镇，运河咽喉
+        yizheng: [32.27, 119.18],  // 仪征：扼守长江，联系南京
+        taizhou: [32.45, 119.92],  // 泰州：扬州东翼屏障
+        jiangdu: [32.43, 119.55]   // 江都：扬州紧邻，清军扫荡区
+    };
 
     const timelineData = [
-        { date: "1644年10月", desc: "南明政权初建。史可法坐镇扬州，构建江北防线。", mingLines: [[[34.2, 117], [33.5, 119]]], qingForce: [36, 118] },
-        { date: "1645年初", desc: "高杰在徐州遇刺，江北防线动摇。清主力南下。", mingLines: [[[33.8, 117], [33.5, 119]]], qingForce: [34.5, 117.5] },
-        { date: "1645年4月", desc: "清主力渡过淮河。刘泽清弃淮安出逃，史可法退回扬州。", mingLines: [[[32.5, 119.4], [32.2, 119.3]]], qingForce: [33.2, 118.5] },
-        { date: "1645年5月初", desc: "清军合围扬州。史可法孤军死守。", qingForce: [32.55, 119.5], qingCircle: true },
-        { date: "1645年5月20日", desc: "城破。史可法殉国。扬州陷落。", qingForce: [32.39, 119.41], cityFall: true }
+        { 
+            date: "1644年10月", 
+            desc: "南明政权初建。史可法开督府于扬州，调度‘江北四镇’。高邮、仪征等县开始加固城防，维持运河补给线。", 
+            mingLines: [[[34.2, 117], [33.5, 119]], [[32.8, 119.4], [32.2, 119.2]]], 
+            qingForce: [36, 118],
+            activeCounties: ['gaoyou', 'yizheng'] 
+        },
+        { 
+            date: "1645年初", 
+            desc: "高杰在徐州遇刺，江北防线动摇。清主力大举南下。泰州、江都被列为二线战区，民心惶惶。", 
+            mingLines: [[[33.8, 117], [33.5, 119]]], 
+            qingForce: [34.5, 117.5],
+            activeCounties: ['gaoyou', 'taizhou']
+        },
+        { 
+            date: "1645年4月", 
+            desc: "清军突破淮河。高邮失守，运河断绝。清前锋席卷江都，包围扬州外围。史可法孤立无援。", 
+            mingLines: [[[32.5, 119.4], [32.2, 119.3]]], 
+            qingForce: [33.2, 118.5],
+            activeCounties: ['jiangdu', 'gaoyou'],
+            isCrisis: true
+        },
+        { 
+            date: "1645年5月初", 
+            desc: "清军合围扬州。多铎部扫荡仪征，确保长江封锁。扬州彻底成为死城。周边县治或降或残。", 
+            qingForce: [32.55, 119.5], 
+            qingCircle: true,
+            activeCounties: ['yizheng', 'jiangdu']
+        },
+        { 
+            date: "1645年5月20日", 
+            desc: "城破。史可法殉国。扬州十日开始。江都、泰州等周边地区全境易帜，南明江北秩序彻底瓦解。", 
+            qingForce: [32.39, 119.41], 
+            cityFall: true,
+            activeCounties: []
+        }
     ];
 
     const layerGroup = L.layerGroup().addTo(map);
@@ -116,8 +157,26 @@
         document.getElementById('current-date').innerText = data.date;
         document.getElementById('event-desc').innerText = data.desc;
 
+        // 绘制城市点
         Object.keys(locations).forEach(city => {
-            L.circleMarker(locations[city], {radius: 6, color: '#fff', fillColor: '#000', fillOpacity: 0.8}).addTo(layerGroup);
+            const isMinor = ['gaoyou', 'yizheng', 'taizhou', 'jiangdu'].includes(city);
+            const isActive = data.activeCounties && data.activeCounties.includes(city);
+            
+            let color = '#fff';
+            let radius = isMinor ? 4 : 6;
+            
+            if (isActive) {
+                color = data.isCrisis ? '#ff0' : '#0ff';
+                radius = 7;
+            }
+
+            L.circleMarker(locations[city], {
+                radius: radius, 
+                color: color, 
+                fillColor: '#000', 
+                fillOpacity: 0.8,
+                weight: isActive ? 3 : 1
+            }).bindTooltip(city === 'yangzhou' ? '' : (city === 'nanjing' ? '南京' : city), {permanent: isMinor && isActive}).addTo(layerGroup);
         });
 
         if (data.mingLines) {
@@ -125,11 +184,17 @@
         }
 
         if (!data.cityFall) {
-            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>清军主力</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
+            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>八旗铁骑</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
             L.marker(locations.yangzhou, { icon: L.divIcon({ className: '', html: `<div class="ming-force-label"><span class="ming-flag-icon">🚩</span>史可法</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
         }
 
-        if (data.qingCircle) L.circle(locations.yangzhou, {radius: 15000, color: '#1d3557', weight: 4, fillOpacity: 0.2}).addTo(layerGroup);
+        if (data.qingCircle) {
+            L.circle(locations.yangzhou, {radius: 15000, color: '#1d3557', weight: 4, fillOpacity: 0.2}).addTo(layerGroup);
+            // 绘制清军向周边的扫荡线
+            L.polyline([locations.yangzhou, locations.jiangdu], {color: 'blue', weight: 2, dashArray: '5,5'}).addTo(layerGroup);
+            L.polyline([locations.yangzhou, locations.yizheng], {color: 'blue', weight: 2, dashArray: '5,5'}).addTo(layerGroup);
+        }
+        
         if (data.cityFall) L.marker(locations.yangzhou, { icon: L.divIcon({className:'city-label', html:'<div style="color:red; font-size:30px; font-weight:900;">陷落</div>'}) }).addTo(layerGroup);
     }
 
