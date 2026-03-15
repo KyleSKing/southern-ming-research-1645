@@ -33,11 +33,29 @@
             50% { transform: translateY(-5px) rotate(5deg); }
         }
         
+        /* 南明旗帜图标样式，文字叠在旗帜上 */
+        .ming-flag-container {
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
         .ming-flag-icon {
-            font-size: 20px;
+            font-size: 36px; /* 增大旗帜作为背景 */
             animation: flag-wave 1s infinite alternate ease-in-out;
             display: inline-block;
             filter: drop-shadow(0 0 5px #e63946);
+        }
+        .ming-flag-text {
+            position: absolute;
+            top: 45%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 10px;
+            font-weight: 900;
+            white-space: nowrap;
+            text-shadow: 1px 1px 1px black;
+            pointer-events: none;
         }
         @keyframes flag-wave {
             from { transform: skewX(-10deg); }
@@ -45,9 +63,7 @@
         }
 
         .ming-force-label {
-            background: transparent; color: #ff0; padding: 0; border-radius: 0; font-size: 13px;
-            border: none; display: flex; flex-direction: row; align-items: center; gap: 4px; box-shadow: none;
-            font-weight: bold; text-shadow: 1px 1px 2px black;
+            background: transparent; border: none; display: flex; align-items: center; justify-content: center;
         }
         
         .qing-force-label {
@@ -222,7 +238,19 @@
 
         if (!data.cityFall) {
             L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>清军</div>`, iconSize:[80,30], iconAnchor:[40,15] })}).addTo(layerGroup);
-            L.marker(locations.yangzhou, { icon: L.divIcon({ className: '', html: `<div class="ming-force-label"><span class="ming-flag-icon">🚩</span>史可法</div>`, iconSize:[80,30], iconAnchor:[40,15] })}).addTo(layerGroup);
+            L.marker(locations.yangzhou, { icon: L.divIcon({ 
+                className: '', 
+                html: `
+                    <div class="ming-force-label">
+                        <div class="ming-flag-container">
+                            <span class="ming-flag-icon">🚩</span>
+                            <span class="ming-flag-text">史可法</span>
+                        </div>
+                    </div>
+                `, 
+                iconSize:[60,60], 
+                iconAnchor:[30,30] 
+            })}).addTo(layerGroup);
         }
 
         if (data.qingCircle) {
