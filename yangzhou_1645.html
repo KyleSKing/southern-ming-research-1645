@@ -23,35 +23,35 @@
         .city-label { background: transparent !important; border: none !important; box-shadow: none !important; font-weight: bold; color: white !important; text-shadow: 2px 2px 4px black; font-size: 16px; }
         
         .cavalry-icon {
-            font-size: 32px;
+            font-size: 20px;
             animation: cavalry-move 1.5s infinite ease-in-out;
             display: inline-block;
-            filter: drop-shadow(0 0 10px #1d3557);
+            filter: drop-shadow(0 0 5px #1d3557);
         }
         @keyframes cavalry-move {
-            0%, 100% { transform: translateY(0) rotate(-10deg); }
-            50% { transform: translateY(-10px) rotate(10deg); }
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-5px) rotate(5deg); }
         }
         
         .ming-flag-icon {
-            font-size: 32px;
+            font-size: 20px;
             animation: flag-wave 1s infinite alternate ease-in-out;
             display: inline-block;
-            filter: drop-shadow(0 0 10px #e63946);
+            filter: drop-shadow(0 0 5px #e63946);
         }
         @keyframes flag-wave {
-            from { transform: skewX(-15deg); }
-            to { transform: skewX(15deg); }
+            from { transform: skewX(-10deg); }
+            to { transform: skewX(10deg); }
         }
 
         .ming-force-label {
-            background: rgba(230, 57, 70, 0.9); color: white; padding: 6px 12px; border-radius: 4px; font-size: 14px;
-            border: 2px solid #ff0; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 15px rgba(230, 57, 70, 0.8);
+            background: rgba(230, 57, 70, 0.9); color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;
+            border: 1px solid #ff0; display: flex; flex-direction: row; align-items: center; gap: 4px; box-shadow: 0 0 8px rgba(230, 57, 70, 0.6);
         }
         
         .qing-force-label {
-            background: rgba(29, 53, 87, 0.9); color: white; padding: 6px 12px; border-radius: 4px; font-size: 14px;
-            border: 2px solid #bc9e6c; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 15px rgba(29, 53, 87, 0.8);
+            background: rgba(29, 53, 87, 0.9); color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;
+            border: 1px solid #bc9e6c; display: flex; flex-direction: row; align-items: center; gap: 4px; box-shadow: 0 0 8px rgba(29, 53, 87, 0.6);
         }
 
         .ui-panel { position: absolute; z-index: 1000; background: var(--panel-bg); padding: 20px; border-radius: 8px; border: 2px solid #bc9e6c; }
@@ -220,8 +220,8 @@
         }
 
         if (!data.cityFall) {
-            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>清军</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
-            L.marker(locations.yangzhou, { icon: L.divIcon({ className: '', html: `<div class="ming-force-label"><span class="ming-flag-icon">🚩</span>史可法</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
+            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>清军</div>`, iconSize:[80,30], iconAnchor:[40,15] })}).addTo(layerGroup);
+            L.marker(locations.yangzhou, { icon: L.divIcon({ className: '', html: `<div class="ming-force-label"><span class="ming-flag-icon">🚩</span>史可法</div>`, iconSize:[80,30], iconAnchor:[40,15] })}).addTo(layerGroup);
         }
 
         if (data.qingCircle) {
