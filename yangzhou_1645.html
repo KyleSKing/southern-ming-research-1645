@@ -128,9 +128,12 @@
         zoomControl: false
     });
 
-    const CartoDB_DarkMatter = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; CartoDB'
+    const CartoDB_Positron = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap'
     }).addTo(map);
+    
+    // 如果 Positron 加载失败，使用 OpenStreetMap 标准层作为备用
+    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     // 历史坐标数据
     const locations = {
