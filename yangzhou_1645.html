@@ -35,18 +35,26 @@
         }
         .ming-flag-icon {
             font-size: 48px;
-            color: #e63946;
+            color: #8b0000 !important; /* 深红色 */
             animation: flag-wave 1.2s infinite alternate ease-in-out;
             display: inline-block;
-            filter: drop-shadow(0 0 8px #ff0);
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
         }
         .ming-flag-text {
             position: absolute;
             top: 42%; left: 55%;
             transform: translate(-50%, -50%);
-            color: white; font-size: 16px; font-weight: 900;
-            text-shadow: 1px 1px 2px black;
-            font-family: "STSong", "SimSun", serif;
+            color: white; 
+            font-size: 18px; 
+            font-weight: 900;
+            /* 黑框效果：通过多个方向的 text-shadow 模拟 */
+            text-shadow: 
+                -1.5px -1.5px 0 #000,  
+                 1.5px -1.5px 0 #000,
+                -1.5px  1.5px 0 #000,
+                 1.5px  1.5px 0 #000,
+                 0px 0px 4px #000;
+            font-family: "Kaiti", "STKaiti", "楷体", serif; /* 楷书 */
         }
 
         /* 清军骑兵图标 */
