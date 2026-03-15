@@ -4,94 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1644-1645 扬州攻防战动态态势图</title>
-    <!-- 使用中文环境更稳定的地图源 (高德/百度/OSM镜像) -->
-    <script src="https://cdn.staticfile.org/leaflet/1.9.4/leaflet.js"></script>
-    <link rel="stylesheet" href="https://cdn.staticfile.org/leaflet/1.9.4/leaflet.css" />
+    <!-- 使用 CDNJS，这是目前最通用的 CDN 之一 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
     <style>
         :root {
             --ming-color: #e63946;
             --qing-color: #1d3557;
             --bg-color: #f1faee;
-            --panel-bg: rgba(255, 255, 255, 0.9);
+            --panel-bg: rgba(255, 255, 255, 0.95);
         }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: "Microsoft YaHei", serif; background: #222; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: "Microsoft YaHei", serif; background: #222; overflow: hidden; }
         #map { height: 100vh; width: 100vw; background: #1a1a1a; }
         
-        /* 界面 UI */
-        .ui-panel {
-            position: absolute;
-            z-index: 1000;
-            background: var(--panel-bg);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 1px solid #bc9e6c;
+        .leaflet-container { background: #111 !important; }
+        
+        /* 标记样式 */
+        .city-label { background: transparent !important; border: none !important; box-shadow: none !important; font-weight: bold; color: white !important; text-shadow: 2px 2px 4px black; font-size: 16px; }
+        
+        .cavalry-icon {
+            font-size: 32px;
+            animation: cavalry-move 1.5s infinite ease-in-out;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px #1d3557);
         }
+        @keyframes cavalry-move {
+            0%, 100% { transform: translateY(0) rotate(-10deg); }
+            50% { transform: translateY(-10px) rotate(10deg); }
+        }
+        
+        .ming-flag-icon {
+            font-size: 32px;
+            animation: flag-wave 1s infinite alternate ease-in-out;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px #e63946);
+        }
+        @keyframes flag-wave {
+            from { transform: skewX(-15deg); }
+            to { transform: skewX(15deg); }
+        }
+
+        .ming-force-label {
+            background: rgba(230, 57, 70, 0.9); color: white; padding: 6px 12px; border-radius: 4px; font-size: 14px;
+            border: 2px solid #ff0; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 15px rgba(230, 57, 70, 0.8);
+        }
+        
+        .qing-force-label {
+            background: rgba(29, 53, 87, 0.9); color: white; padding: 6px 12px; border-radius: 4px; font-size: 14px;
+            border: 2px solid #bc9e6c; display: flex; flex-direction: column; align-items: center; box-shadow: 0 0 15px rgba(29, 53, 87, 0.8);
+        }
+
+        .ui-panel { position: absolute; z-index: 1000; background: var(--panel-bg); padding: 20px; border-radius: 8px; border: 2px solid #bc9e6c; }
         .info-panel { top: 20px; left: 20px; width: 300px; }
         .timeline-panel { bottom: 30px; left: 50%; transform: translateX(-50%); width: 80%; text-align: center; }
         
         h1 { margin: 0 0 10px 0; font-size: 1.4em; color: #432; border-bottom: 2px solid #bc9e6c; padding-bottom: 5px; }
         .date-display { font-size: 1.2em; font-weight: bold; color: #822; margin-bottom: 10px; }
-        .description { font-size: 0.95em; line-height: 1.6; color: #333; height: 120px; overflow-y: auto; }
+        .description { font-size: 1em; line-height: 1.6; color: #333; height: 120px; overflow-y: auto; }
         
-        /* 时间轴滑块 */
         input[type=range] { width: 100%; cursor: pointer; margin: 15px 0; }
         .legend { display: flex; justify-content: space-around; margin-top: 10px; font-size: 0.9em; }
-        .legend-item { display: flex; align-items: center; }
+        .legend-item { display: flex; align-items: center; font-weight: bold; }
         .dot { width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; }
-        
-        /* 标记样式 */
-        .city-label { background: transparent; border: none; box-shadow: none; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; font-size: 14px; }
-        
-        .cavalry-icon {
-            font-size: 24px;
-            animation: cavalry-move 1.5s infinite ease-in-out;
-            display: inline-block;
-            filter: drop-shadow(0 0 5px #1d3557);
-        }
-        @keyframes cavalry-move {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-5px) rotate(5deg); }
-        }
-        
-        /* 南明旗帜动画 */
-        .ming-flag-icon {
-            font-size: 24px;
-            animation: flag-wave 2s infinite ease-in-out;
-            display: inline-block;
-            filter: drop-shadow(0 0 5px #e63946);
-        }
-        @keyframes flag-wave {
-            0%, 100% { transform: skewX(-5deg) rotate(-2deg); }
-            50% { transform: skewX(5deg) rotate(2deg); }
-        }
-
-        .ming-force-label {
-            background: #e63946; 
-            color: white; 
-            padding: 4px 8px; 
-            border-radius: 4px; 
-            font-size: 11px;
-            white-space: nowrap;
-            border: 1px solid #ff0;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
-        }
-        
-        .qing-force-label {
-            background: #1d3557; 
-            color: white; 
-            padding: 4px 8px; 
-            border-radius: 4px; 
-            font-size: 11px;
-            white-space: nowrap;
-            border: 1px solid #bc9e6c;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
     </style>
 </head>
 <body>
@@ -99,179 +73,68 @@
 <div id="map"></div>
 
 <div class="ui-panel info-panel">
-    <h1>扬州攻防战 (1644-1645)</h1>
+    <h1>1644-1645 扬州攻防战</h1>
     <div id="current-date" class="date-display">1644年10月</div>
-    <div id="event-desc" class="description">
-        南明建立初期。史可法奉命督师扬州，试图构建江北四镇防线。清军主力尚在北京周边及对付大顺军，扬州处于备战状态。
-    </div>
+    <div id="event-desc" class="description">加载中...</div>
     <div class="legend">
-        <div class="legend-item"><span class="dot" style="background:var(--ming-color)"></span>南明军</div>
-        <div class="legend-item"><span class="dot" style="background:var(--qing-color)"></span>大清军</div>
+        <div class="legend-item"><span class="dot" style="background:var(--ming-color)"></span>南明</div>
+        <div class="legend-item"><span class="dot" style="background:var(--qing-color)"></span>大清</div>
     </div>
 </div>
 
 <div class="ui-panel timeline-panel">
     <input type="range" id="timeline" min="0" max="4" step="1" value="0">
-    <div style="display: flex; justify-content: space-between; padding: 0 10px; font-size: 0.85em; color: #555;">
-        <span>弘光元年初始</span>
-        <span>清军南下</span>
-        <span>泗州失陷</span>
-        <span>扬州被围</span>
-        <span>扬州陷落</span>
+    <div style="display: flex; justify-content: space-between; padding: 0 10px; font-size: 0.9em; color: #444; font-weight: bold;">
+        <span>史可法督师</span><span>高杰遇刺</span><span>淮河失守</span><span>围困扬州</span><span>城破殉国</span>
     </div>
 </div>
 
 <script>
-    // 使用高德地图作为底图（无需 Key，基础经纬度底图）
-    const map = L.map('map', {
-        center: [32.5, 119.4],
-        zoom: 7,
-        zoomControl: false
-    });
+    const map = L.map('map', { center: [32.5, 119.4], zoom: 7, zoomControl: false, attributionControl: false });
 
-    // 高德底图方案
-    const amap = L.tileLayer('https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-        attribution: '&copy; 高德地图'
+    // 百度/高德/OSM 多重保障
+    const tiles = L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+        subdomains: ["1", "2", "3", "4"],
+        attribution: 'AutoNavi'
     }).addTo(map);
 
-    // 标准备用层
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const locations = { yangzhou: [32.3946, 119.4126], nanjing: [32.0603, 118.7969], sizhou: [33.02, 118.39], huaian: [33.50, 119.13], xuzhou: [34.26, 117.18] };
 
-
-    // 历史坐标数据
-    const locations = {
-        yangzhou: [32.3946, 119.4126],
-        nanjing: [32.0603, 118.7969],
-        sizhou: [33.02, 118.39],   // 泗州 (洪泽湖附近)
-        huaian: [33.50, 119.13],   // 淮安
-        xuzhou: [34.26, 117.18],   // 徐州
-        guazhou: [32.22, 119.37]   // 瓜洲要塞
-    };
-
-    // 时间轴阶段数据
     const timelineData = [
-        {
-            date: "1644年10月 - 弘光始建",
-            desc: "南明政权初建。史可法坐镇扬州，兵力约10-15万，构建‘江北四镇’：高杰（徐州）、刘泽清（淮安）、刘良佐（凤阳）、黄得功（庐州）。",
-            mingLines: [
-                [[34.2, 117], [33.5, 119]], // 北方防线
-                [[32.4, 119], [32.1, 118.8]] // 长江防线
-            ],
-            qingForce: [36, 118], // 清军位置
-            showSizhou: false
-        },
-        {
-            date: "1645年初 - 局势剧变",
-            desc: "高杰在徐州遇刺，江北防线动摇。清肃亲王豪格夺占山东，多铎统领定国大将军印，主力开始加速南下。",
-            mingLines: [
-                [[33.8, 117], [33.5, 119]]
-            ],
-            qingForce: [34.5, 117.5], 
-            showSizhou: true
-        },
-        {
-            date: "1645年4月 - 泗州崩溃",
-            desc: "1645年4月5日，清主力渡过淮河。刘泽清弃淮安出逃，史可法由于潜退守泗州，随即防线崩溃折返扬州。扬州外围据点尽失。",
-            mingLines: [
-                [[32.5, 119.4], [32.2, 119.3]]
-            ],
-            qingForce: [33.2, 118.5],
-            showSizhou: true
-        },
-        {
-            date: "1645年5月初 - 围困扬州",
-            desc: "清军多铎部抵达扬州城下。扬州城内仅有史可法统帅的数万残兵。清军修筑长围，并以红衣大炮轰击城墙。史可法拒绝降书。",
-            qingForce: [32.45, 119.45], // 围合扬州
-            qingCircle: true,
-            showSizhou: true
-        },
-        {
-            date: "1645年5月20日 - 城破殉国",
-            desc: "扬州西北角城墙损毁。清军入城，史可法自刎不遂壮烈殉国。随后发生了惨绝人寰的‘扬州十日’，扬州从此成为历史伤痕。",
-            qingForce: [32.39, 119.41],
-            cityFall: true
-        }
+        { date: "1644年10月", desc: "南明政权初建。史可法坐镇扬州，构建江北防线。", mingLines: [[[34.2, 117], [33.5, 119]]], qingForce: [36, 118] },
+        { date: "1645年初", desc: "高杰在徐州遇刺，江北防线动摇。清主力南下。", mingLines: [[[33.8, 117], [33.5, 119]]], qingForce: [34.5, 117.5] },
+        { date: "1645年4月", desc: "清主力渡过淮河。刘泽清弃淮安出逃，史可法退回扬州。", mingLines: [[[32.5, 119.4], [32.2, 119.3]]], qingForce: [33.2, 118.5] },
+        { date: "1645年5月初", desc: "清军合围扬州。史可法孤军死守。", qingForce: [32.55, 119.5], qingCircle: true },
+        { date: "1645年5月20日", desc: "城破。史可法殉国。扬州陷落。", qingForce: [32.39, 119.41], cityFall: true }
     ];
 
-    let layerGroup = L.layerGroup().addTo(map);
+    const layerGroup = L.layerGroup().addTo(map);
 
     function updateMap(index) {
         layerGroup.clearLayers();
         const data = timelineData[index];
-
         document.getElementById('current-date').innerText = data.date;
         document.getElementById('event-desc').innerText = data.desc;
 
-        // 标注主要城市
         Object.keys(locations).forEach(city => {
-            if (city === 'sizhou' && !data.showSizhou) return;
-            L.marker(locations[city], {
-                icon: L.divIcon({className: 'city-label', html: city === 'yangzhou' ? '扬州' : ''})
-            }).addTo(layerGroup);
-            L.circleMarker(locations[city], {radius: 5, color: '#fff', weight: 2}).addTo(layerGroup);
+            L.circleMarker(locations[city], {radius: 6, color: '#fff', fillColor: '#000', fillOpacity: 0.8}).addTo(layerGroup);
         });
 
-        // 扬州特殊标记
-        L.marker(locations.yangzhou, {
-            icon: L.divIcon({className: 'city-label', html: '扬州', iconAnchor: [0, -10]})
-        }).addTo(layerGroup);
-
-        // 绘制明军防线
         if (data.mingLines) {
-            data.mingLines.forEach(pts => {
-                L.polyline(pts, {color: '#e63946', weight: 4, opacity: 0.6, dashArray: '10, 10'}).addTo(layerGroup);
-            });
+            data.mingLines.forEach(pts => L.polyline(pts, {color: '#e63946', weight: 6, dashArray: '10, 10'}).addTo(layerGroup));
         }
 
-        // 绘制清军态势
-        if (data.qingCircle) {
-            L.circle(locations.yangzhou, {radius: 12000, color: '#1d3557', weight: 3, fillOpacity: 0.2}).addTo(layerGroup);
-            // 清军箭头指向
-            L.polyline([[33, 119.4], [32.5, 119.4]], {color: '#1d3557', weight: 6, opacity: 0.8}).addTo(layerGroup);
-        } else if (data.cityFall) {
-            L.circle(locations.yangzhou, {radius: 5000, color: 'black', fillColor: 'red', fillOpacity: 0.5}).addTo(layerGroup);
-        } else {
-            L.marker(data.qingForce, {
-                icon: L.divIcon({
-                    className: '',
-                    html: `
-                        <div class="qing-force-label">
-                            <span class="cavalry-icon">🏇</span>
-                            清军主力 (15万+)
-                        </div>
-                    `,
-                    iconSize: [120, 30],
-                    iconAnchor: [60, 15]
-                })
-            }).addTo(layerGroup);
-        }
-
-        // 史可法标志 (南明旗帜)
         if (!data.cityFall) {
-            L.marker(locations.yangzhou, {
-                icon: L.divIcon({
-                    className: '',
-                    html: `
-                        <div class="ming-force-label">
-                            <span class="ming-flag-icon">🚩</span>
-                            史可法 (督师)
-                        </div>
-                    `,
-                    iconSize: [120, 30],
-                    iconAnchor: [60, -20]
-                })
-            }).addTo(layerGroup);
+            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>清军主力</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
+            L.marker(locations.yangzhou, { icon: L.divIcon({ className: '', html: `<div class="ming-force-label"><span class="ming-flag-icon">🚩</span>史可法</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
         }
+
+        if (data.qingCircle) L.circle(locations.yangzhou, {radius: 15000, color: '#1d3557', weight: 4, fillOpacity: 0.2}).addTo(layerGroup);
+        if (data.cityFall) L.marker(locations.yangzhou, { icon: L.divIcon({className:'city-label', html:'<div style="color:red; font-size:30px; font-weight:900;">陷落</div>'}) }).addTo(layerGroup);
     }
 
-    document.getElementById('timeline').addEventListener('input', (e) => {
-        updateMap(e.target.value);
-    });
-
-    // 初始渲染
+    document.getElementById('timeline').oninput = (e) => updateMap(e.target.value);
     updateMap(0);
-    map.setView([33.0, 118.8], 7);
 </script>
-
 </body>
 </html>
