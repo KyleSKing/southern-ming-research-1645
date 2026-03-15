@@ -49,22 +49,27 @@
             font-family: "STSong", "SimSun", serif;
         }
 
-        /* 清军旗帜：蓝底金字 */
+        /* 清军旗帜：蓝底黄字 */
         .qing-flag-icon {
             font-size: 48px;
-            color: #1d3557;
+            color: #1d3557 !important; /* 强制蓝色 */
             animation: flag-wave 1.5s infinite alternate ease-in-out;
             display: inline-block;
-            filter: drop-shadow(0 0 8px #0ff);
+            filter: drop-shadow(0 0 12px #0077ff);
         }
         .qing-flag-text {
             position: absolute;
             top: 42%; left: 55%;
             transform: translate(-50%, -50%);
-            color: #ff0; font-size: 16px; font-weight: 900;
+            color: #ff0 !important; /* 强制金字 */
+            font-size: 16px; font-weight: 900;
             text-shadow: 1px 1px 2px black;
             font-family: "STSong", "SimSun", serif;
         }
+
+        /* 解决层级问题：旗帜必须最高，且调整偏移 */
+        .leaflet-marker-pane .force-label { z-index: 1000 !important; }
+        .leaflet-tooltip-pane .city-label { z-index: 500 !important; opacity: 0.7; }
 
         .ui-panel { position: absolute; z-index: 1000; background: var(--panel-bg); padding: 20px; border-radius: 8px; border: 2px solid #bc9e6c; }
         .info-panel { top: 20px; left: 20px; width: 300px; }
@@ -132,7 +137,12 @@
 
         const nameMap = { yangzhou:'扬州', nanjing:'南京', sizhou:'泗州', huaian:'淮安', xuzhou:'徐州', gaoyou:'高邮', yizheng:'仪征', taizhou:'泰州', jiangdu:'江都' };
         Object.keys(locations).forEach(city => {
-            L.circleMarker(locations[city], {radius: 6, color: '#fff', fillColor: '#000', fillOpacity: 0.8}).bindTooltip(nameMap[city], {permanent: true, className: 'city-label'}).addTo(layerGroup);
+            L.circleMarker(locations[city], {radius: 6, color: '#fff', fillColor: '#000', fillOpacity: 0.8}).bindTooltip(nameMap[city], {
+                permanent: true, 
+                direction: 'top', // 改为上方显示，降低与旗帜重叠概率
+                offset: [0, -10],
+                className: 'city-label'
+            }).addTo(layerGroup);
         });
 
         if (data.mingLines) {
@@ -140,10 +150,27 @@
         }
 
         if (!data.cityFall) {
-            // 清军：正蓝旗/镶蓝旗风格 (蓝底金字)
-            L.marker(data.qingForce, { icon: L.divIcon({ className:'force-label', html: `<div class="flag-container"><span class="qing-flag-icon">🚩</span><span class="qing-flag-text">清</span></div>`, iconSize:[60,60], iconAnchor:[30,30] })}).addTo(layerGroup);
-            // 明军：正红旗风格 (红底白字)
-            L.marker(locations.yangzhou, { icon: L.divIcon({ className:'force-label', html: `<div class="flag-container"><span class="ming-flag-icon">🚩</span><span class="ming-flag-text">明</span></div>`, iconSize:[60,60], iconAnchor:[30,30] })}).addTo(layerGroup);
+            // 清军：显式指定 Emoji 颜色可能受操作系统影响，通过样式强制覆盖
+            L.marker(data.qingForce, { 
+                icon: L.divIcon({ 
+                    className:'force-label', 
+                    html: `<div class="flag-container" style="color:#1d3557;"><span class="qing-flag-icon">🏳️</span><span class="qing-flag-text">清</span></div>`, 
+                    iconSize:[60,60], 
+                    iconAnchor:[30,30] 
+                }),
+                zIndexOffset: 2000 // 旗帜层级强制最高
+            }).addTo(layerGroup);
+            
+            // 明军
+            L.marker(locations.yangzhou, { 
+                icon: L.divIcon({ 
+                    className:'force-label', 
+                    html: `<div class="flag-container" style="color:#e63946;"><span class="ming-flag-icon">🚩</span><span class="ming-flag-text">明</span></div>`, 
+                    iconSize:[60,60], 
+                    iconAnchor:[30,30] 
+                }),
+                zIndexOffset: 2000 
+            }).addTo(layerGroup);
         }
 
         if (data.qingCircle) L.circle(locations.yangzhou, {radius: 15000, color: '#1d3557', weight: 4, fillOpacity: 0.2}).addTo(layerGroup);
