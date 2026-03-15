@@ -181,6 +181,19 @@
             const isMinor = ['gaoyou', 'yizheng', 'taizhou', 'jiangdu'].includes(city);
             const isActive = data.activeCounties && data.activeCounties.includes(city);
             
+            // 英文 key 到中文名称的映射
+            const nameMap = {
+                yangzhou: '扬州',
+                nanjing: '南京',
+                sizhou: '泗州',
+                huaian: '淮安',
+                xuzhou: '徐州',
+                gaoyou: '高邮',
+                yizheng: '仪征',
+                taizhou: '泰州',
+                jiangdu: '江都'
+            };
+            
             let color = '#fff';
             let radius = isMinor ? 4 : 6;
             
@@ -195,7 +208,11 @@
                 fillColor: '#000', 
                 fillOpacity: 0.8,
                 weight: isActive ? 3 : 1
-            }).bindTooltip(city === 'yangzhou' ? '' : (city === 'nanjing' ? '南京' : city), {permanent: isMinor && isActive}).addTo(layerGroup);
+            }).bindTooltip(nameMap[city] || city, {
+                permanent: true, 
+                direction: 'right',
+                className: 'city-label'
+            }).addTo(layerGroup);
         });
 
         if (data.mingLines) {
@@ -203,7 +220,7 @@
         }
 
         if (!data.cityFall) {
-            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>八旗铁骑</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
+            L.marker(data.qingForce, { icon: L.divIcon({ className: '', html: `<div class="qing-force-label"><span class="cavalry-icon">🏇</span>清军</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
             L.marker(locations.yangzhou, { icon: L.divIcon({ className: '', html: `<div class="ming-force-label"><span class="ming-flag-icon">🚩</span>史可法</div>`, iconSize:[100,50], iconAnchor:[50,25] })}).addTo(layerGroup);
         }
 
