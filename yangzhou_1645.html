@@ -49,22 +49,35 @@
             font-family: "STSong", "SimSun", serif;
         }
 
-        /* 清军旗帜：蓝底黄字 */
-        .qing-flag-icon {
-            font-size: 48px;
-            color: #1d3557 !important; /* 强制蓝色 */
-            animation: flag-wave 1.5s infinite alternate ease-in-out;
+        /* 清军骑兵图标 */
+        .qing-cavalry-container {
+            position: relative;
             display: inline-block;
-            filter: drop-shadow(0 0 12px #0077ff);
+            filter: drop-shadow(0 0 10px #0077ff);
         }
-        .qing-flag-text {
+        .qing-cavalry-icon {
+            font-size: 42px;
+            animation: cavalry-move 1.5s infinite ease-in-out;
+            display: inline-block;
+        }
+        .qing-cavalry-text {
             position: absolute;
-            top: 42%; left: 55%;
-            transform: translate(-50%, -50%);
-            color: #ff0 !important; /* 强制金字 */
-            font-size: 16px; font-weight: 900;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(29, 53, 87, 0.9);
+            color: #ff0;
+            font-size: 14px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid #bc9e6c;
+            white-space: nowrap;
             text-shadow: 1px 1px 2px black;
-            font-family: "STSong", "SimSun", serif;
+        }
+        @keyframes cavalry-move {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
         }
 
         /* 解决层级问题：旗帜必须最高，且调整偏移 */
@@ -150,18 +163,23 @@
         }
 
         if (!data.cityFall) {
-            // 清军：显式指定 Emoji 颜色可能受操作系统影响，通过样式强制覆盖
+            // 清军：还原为骑兵图标
             L.marker(data.qingForce, { 
                 icon: L.divIcon({ 
                     className:'force-label', 
-                    html: `<div class="flag-container" style="color:#1d3557;"><span class="qing-flag-icon">🏳️</span><span class="qing-flag-text">清</span></div>`, 
-                    iconSize:[60,60], 
-                    iconAnchor:[30,30] 
+                    html: `
+                        <div class="qing-cavalry-container">
+                            <span class="qing-cavalry-icon">🏇</span>
+                            <span class="qing-cavalry-text">清军</span>
+                        </div>
+                    `, 
+                    iconSize:[80,80], 
+                    iconAnchor:[40,40] 
                 }),
-                zIndexOffset: 2000 // 旗帜层级强制最高
+                zIndexOffset: 2000
             }).addTo(layerGroup);
             
-            // 明军
+            // 明军：保持带名字的红旗
             L.marker(locations.yangzhou, { 
                 icon: L.divIcon({ 
                     className:'force-label', 
